@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/materia/bootstrap.min.css" integrity="sha384-B4morbeopVCSpzeC1c4nyV0d0cqvlSAfyXVfrPJa25im5p+yEN/YmhlgQP/OyMZD" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+
+</head>
+<body>
+
+<div class="container pt-5">
+
+<div class="row">
+<div class="col"> 
+
+<p><b>Generate a voucher code</b></p>
+
+    <form method="POST" id="generate">
+  <div class="form-group">
+
+ 
+
+    <label for="user">User ID</label>
+
+    <input type="text" class="form-control" id="user" name="user">
+     
+    
+   </div>
+  <div class="form-group">
+    <label for="count">Number of nodes</label>
+    <input type="text" class="form-control" id="count" name="count">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Generate</button>
+
+</form>
+<br>
+<p id="msg"></p>
+
+</div>
+
+<div class="col"><p><b>Validate a voucher code</b></p>
+
+    <form method="POST" id="validate">
+  <div class="form-group">
+
+
+
+    <label for="code">Voucher Code</label>
+
+    <input type="text" class="form-control" id="code" name="code">
+
+
+   </div>
+ 
+
+  <button type="submit" class="btn btn-primary">Validate</button>
+
+</form>
+<br>
+<p id="msg2"></p>
+ </div>
+
+</div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+$("#generate").on('submit',function(e) {
+ 
+        e.preventDefault();
+        $.ajax({
+        method:"POST",
+        url: "/genvouch",
+        dataType:"html",
+        data:$("#generate").serialize(),
+        success: function(data){
+
+        if (data != 'Error') {
+ $('#msg').html('<div class="alert alert-success" role="alert" id="msg4">' + data + '</div><br>');
+// $(location).attr('href','/dashboard');
+
+}
+else {
+        $('#msg').html('<div class="alert alert-danger" role="alert" id="msg4">' + data + '</div><br>');
+}
+      
+    }});
+});
+});
+</script>
+<script>
+$(document).ready(function() {
+$("#validate").on('submit',function(e2) {
+ 
+        e2.preventDefault();
+        $.ajax({
+        method:"POST",
+        url: "/getvouch",
+        dataType:"html",
+        data:$("#validate").serialize(),
+        success: function(data2){
+
+        if (data2 != 'Error') {
+ $('#msg2').html('<div class="alert alert-success" role="alert" id="msg6">' + data2 + '</div><br>');
+// $(location).attr('href','/dashboard');
+
+}
+else {
+        $('#msg2').html('<div class="alert alert-danger" role="alert" id="msg6">' + data2 + '</div><br>');
+}
+
+    }});
+});
+});
+</script>
+</body>
+
+</html>
