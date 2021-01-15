@@ -43,4 +43,24 @@ def getvouch():
         msg = 'Error'
     return msg
 
+@app.route('/validate', methods =['POST']) 
+def validate(): 
+    msg = '' 
+    if request.method == 'POST' and 'code' in request.form:
+        code = str(request.form['code'])
+        #count = int(request.form['count'])
+        try:
+            c = hash_id.decode(code)
+            userid = str(c[0])
+            nodescount = str(c[1])
+            #msg = 'USER: ' +userid+ ' NODES: '+nodescount
+            msg ='{"userid":"'+userid+'", "count":"'+nodescount+'"}'
+            print(msg)
+
+        except:
+            msg = 'Error'
+    else:
+        msg = 'Error'
+    return msg
+
 app.run(host='0.0.0.0', port=5000, debug=True)
